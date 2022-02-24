@@ -1,6 +1,4 @@
-/* Our utility scripts connects to the database server before and after the tests have run. 
-Our app however only needs to connect to one specific database within the server.
-*/
+// db.js is our app to connect to a specific database
 
 const mysql = require('mysql2/promise');
 

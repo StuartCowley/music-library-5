@@ -1,17 +1,27 @@
-// utils/create-database.js
-// require the promise version of mysql2
+// create-database.js runs before our app or tests start
+// to make sure the database exists and contains the correct tables.
 const mysql = require('mysql2/promise');
 
 // require path to handle file paths
 const path = require('path');
 
-// extract any command line arguments from argv
+/* example
+console.log(process.argv);
+> node argv.js one two three four five
+[ 'node',
+  '/home/avian/argvdemo/argv.js',
+  'one',
+  'two',
+  'three',
+  'four',
+  'five' ]
+*/
 const args = process.argv.slice(2)[0];
 
 // use args to determine if .env or .env.test should be loaded
 const envFile = args === 'test' ? '../.env.test' : '../.env';
 
-// load environment variables from env files
+// config will read your .env file, parse the contents, assign it to process.env, and return an Object with a parsed key containing the loaded content or an error key if it failed.
 require('dotenv').config({
   path: path.join(__dirname, envFile),
 });

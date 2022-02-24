@@ -1,6 +1,6 @@
-const getDb = require('../services/db');
+const getDb = require('../../services/db');
 
-const createAlbumController = async (req, res) => {
+exports.create = async (req, res) => {
   const db = await getDb();
   const { artistId } = req.params;
   const { name, year } = req.body;
@@ -19,7 +19,7 @@ const createAlbumController = async (req, res) => {
   db.close();
 };
 
-const getAlbumsController = async (_, res) => {
+exports.read = async (_, res) => {
   const db = await getDb();
 
   try {
@@ -33,7 +33,7 @@ const getAlbumsController = async (_, res) => {
   db.close();
 };
 
-const getAlbumController = async (req, res) => {
+exports.readById = async (req, res) => {
   const db = await getDb();
   const { albumId } = req.params;
   const [[album]] = await db.query('SELECT * FROM Album WHERE id = ?', [
@@ -45,7 +45,7 @@ const getAlbumController = async (req, res) => {
     : res.status(404).json({ error: 'Album does not exist.' });
 };
 
-const updateAlbumController = async (req, res) => {
+exports.update = async (req, res) => {
   const db = await getDb();
   const { albumId } = req.params;
   const data = req.body;
@@ -68,7 +68,7 @@ const updateAlbumController = async (req, res) => {
   db.close();
 };
 
-const deleteAlbumController = async (req, res) => {
+exports.delete = async (req, res) => {
   const db = await getDb();
   const { albumId } = req.params;
 
@@ -86,12 +86,4 @@ const deleteAlbumController = async (req, res) => {
   }
 
   db.close();
-};
-
-module.exports = {
-  createAlbumController,
-  getAlbumsController,
-  getAlbumController,
-  updateAlbumController,
-  deleteAlbumController
 };

@@ -1,3 +1,6 @@
+// drop-database runs after our tests to tear down the test database. 
+// This will ensure our tests have a fresh database each time they run.
+
 const mysql = require("mysql2");
 const path = require("path");
 
