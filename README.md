@@ -10,7 +10,7 @@ The purpose of this project is to learn how to design and implement an API which
 
 This API is designed by following the REST paradigm.
 
-The API was developed by using Test Driven Development approach - integration test. These tests check if our application is communicating with a database in the way we expect. Mocha, Chai and Supertest are used for automated testing. 
+The API was developed by using Test Driven Development approach - integration tests applied. These tests check if our application is communicating with a database in the way we expect. Mocha, Chai and Supertest are used for automated testing. 
 
 **The API has the following functionality:**
 
@@ -47,7 +47,7 @@ The API was developed by using Test Driven Development approach - integration te
 
 **MySQL Workbench**: The GUI used to interact with MySQL database directly. 
 
-**Heroku**: Web applications hosting platform (PaaS).
+**Heroku**: The web applications hosting platform (PaaS) used to deploy the API. 
 
 **Postman**: An easy use tool for developers to create, share, test and document APIs.
 
