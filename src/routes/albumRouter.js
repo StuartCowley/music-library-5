@@ -1,3 +1,19 @@
+//const { Artist } = require('../models/artistModel');
+const express = require('express');
+const { createAlbum, findAllAlbums, findAlbumByPk, updateAlbum, deleteAlbum } = require('../controllers/albumController');
+
+const albumRouter = express.Router();
+
+albumRouter.post('/artists/:artistId', createAlbum);
+albumRouter.get('/', findAllAlbums);
+albumRouter.get('/:albumId', findAlbumByPk);
+albumRouter.patch('/:albumId', updateAlbum);
+albumRouter.delete('/:albumId', deleteAlbum);
+
+module.exports = albumRouter;
+
+
+/*
 const express = require('express');
 const albumController = require('../controllers/albumController');
 
@@ -15,3 +31,4 @@ albumRouter.delete('/:albumId', albumController.delete);
 
 
 module.exports = albumRouter;
+*/

@@ -1,6 +1,6 @@
 const { expect } = require('chai'); // a TDD assertion library for node used together with Mocha
 const request = require('supertest');
-const getDb = require('../services/db');
+const getDb = require('../src/services/db');
 const app = require('../src/app');
 
 // Test suite 'describe()' - test the main functionality of create artist

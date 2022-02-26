@@ -1,61 +1,55 @@
 const { expect } = require('chai');
 const request = require('supertest');
 
-const getDb = require('../services/db');
+const getDb = require('../src/services/db');
 const app = require('../src/app');
 
-describe('delete album', () => {
+describe('deleting albums', () => {
   let db;
   let albums;
   beforeEach(async () => {
     db = await getDb();
-
     await Promise.all([
-      db.query('INSERT INTO Artist (name, genre) VALUES(?, ?)', [
-        'Radiohead',
-        'rock'
+      db.query('INSERT INTO Artist(name, genre) VALUES(?,?)', [
+        'Evanescence',
+        'rock',
       ]),
-      db.query('INSERT INTO Artist (name, genre) VALUES(?, ?)', [
-        'Gorillaz',
-        'pop'
+      db.query('INSERT INTO Artist(name, genre) VALUES(?,?)', ['ACDC', 'rock']),
+      db.query('INSERT INTO Artist(name, genre) VALUES(?,?)', [
+        'Alanis Morissette',
+        'pop',
       ]),
-      db.query('INSERT INTO Artist (name, genre) VALUES(?, ?)', [
-        'Red Hot Chili Peppers',
-        'rock'
-      ])
     ]);
 
-    const [[radiohead]] = await db.query(
-      'SELECT id FROM Artist WHERE name = ?',
-      ['Radiohead']
+    const [[evanescence]] = await db.query(
+      'SELECT id FROM Artist WHERE name=?',
+      ['Evanescence']
     );
-    const [[gorillaz]] = await db.query(
-      'SELECT id FROM Artist WHERE name = ?',
-      ['Gorillaz']
-    );
-    const [[rhcp]] = await db.query('SELECT id FROM Artist WHERE name = ?', [
-      'Red Hot Chili Peppers'
+    const [[acdc]] = await db.query('SELECT id FROM Artist WHERE name=?', [
+      'ACDC',
+    ]);
+    const [[Alanis]] = await db.query('SELECT id FROM Artist WHERE name=?', [
+      'Alanis Morissette',
     ]);
 
     await Promise.all([
-      db.query('INSERT INTO Album (name, year, artistId) VALUES (?, ?, ?)', [
-        'OK Computer',
-        1997,
-        radiohead.id
+      db.query('INSERT INTO Album(name, year, artistId) VALUES(?,?,?)', [
+        'Fallen',
+        2003,
+        evanescence.id,
       ]),
-      db.query('INSERT INTO Album (name, year, artistId) VALUES (?, ?, ?)', [
-        'Plastic Beach',
-        2010,
-        gorillaz.id
+      db.query('INSERT INTO Album(name, year, artistId) VALUES(?,?,?)', [
+        'Highway to hell',
+        1979,
+        acdc.id,
       ]),
-      db.query('INSERT INTO Album (name, year, artistId) VALUES (?, ?, ?)', [
-        'Californication',
-        1999,
-        rhcp.id
-      ])
+      db.query('INSERT INTO Album(name, year, artistId) VALUES(?,?,?)', [
+        'Jagged Little Pill',
+        1995,
+        Alanis.id,
+      ]),
     ]);
-
-    [albums] = await db.query('SELECT * from Album');
+    [albums] = await db.query('SELECT * FROM Album');
   });
 
   afterEach(async () => {
@@ -64,25 +58,23 @@ describe('delete album', () => {
     await db.close();
   });
 
-  describe('/album/:albumId', () => {
-    describe('DELETE', () => {
-      it('deletes a single album with the correct id', async () => {
-        const album = albums[0];
-        const res = await request(app).delete(`/album/${album.id}`).send();
+  describe('/album/:id', () => {
+    describe('delete', () => {
+      it('Should delete album when passed valid id', async () => {
+        const id = albums[0].id;
+        const result = await request(app).delete(`/album/${id}`);
 
-        const [[deletedAlbumRecord]] = await db.query(
-          'SELECT * FROM Album WHERE id = ?',
-          [album.id]
+        expect(result.status).to.equal(302);
+        const [[deletedAlbum]] = await db.query(
+          'SELECT * FROM Album WHERE id=?',
+          [id]
         );
-
-        expect(res.status).to.equal(200);
-        expect(!!deletedAlbumRecord).to.be.false;
+        expect(!!deletedAlbum).to.be.false;
       });
 
-      it('returns a 404 if the album is not in the database', async () => {
-        const res = await request(app).delete('/album/999999').send();
-
-        expect(res.status).to.equal(404);
+      it('Should return status code 404 when trying to delete an artist that does not exist', async () => {
+        const result = await request(app).delete('/album/9999999999');
+        expect(result.status).to.equal(404);
       });
     });
   });

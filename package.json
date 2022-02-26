@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prestart": "node utils/create-database.js", 
-    "start": "nodemon -r dotenv/config index.js",
-    "pretest": "node utils/create-database.js test", 
+    "prestart": "node utils/create-database.js",
+    "dev": "nodemon -r dotenv/config index.js",
+    "pretest": "node utils/create-database.js test",
     "test": "mocha tests/**/*.js --exit --recursive --timeout 60000 --file ./tests/test-setup.js",
-    "posttest": "node utils/drop-database.js" 
+    "posttest": "node utils/drop-database.js"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "express": "^4.17.2",
-    "mysql2": "^2.3.3"
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.17.0"
   }
 }
