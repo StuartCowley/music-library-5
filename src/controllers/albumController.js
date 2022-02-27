@@ -1,21 +1,23 @@
-const { Album } = require('../models');
+const { Album, Artist } = require('../models');
 // const getDb = require('../services/db');
 
 const createAlbum = async (req, res) => {
-  // const db = await getDb();
   const { artistId } = req.params;
-  const { name, year } = req.body;
 
-  try{
-    const createdAlbum = await Album.create({ name, year }, { where: { artistId } });
-
-    return res.status(201).json(createdAlbum);
-
-  }catch(err){
-    return res.status(500).json(err)
-  }
-
-  // db.close();
+  Artist.findByPk(artistId).then((artist) => {
+    if (!artist) {
+      res.status(404).json({ error: "The artist could not be found." });
+    } else {
+      Album.create({
+        name: req.body.name,
+        year: req.body.year,
+      }).then((album) => {
+        album.setArtist(artist).then((album) => {
+          res.status(201).json(album);
+        });
+      });
+    }
+  });
 };
 
 const findAllAlbums = async (_, res) => {

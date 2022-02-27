@@ -9,7 +9,7 @@ const createArtist = async (req, res) => {
     const createdArtist = await Artist.create({
       name,
       genre
-    })
+    });
 
     return res.status(201).json(createdArtist);
 

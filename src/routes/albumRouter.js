@@ -4,7 +4,7 @@ const { createAlbum, findAllAlbums, findAlbumByPk, updateAlbum, deleteAlbum } = 
 
 const albumRouter = express.Router();
 
-albumRouter.post('/artists/:artistId', createAlbum);
+albumRouter.post('/artists/:artistId/albums', createAlbum);
 albumRouter.get('/', findAllAlbums);
 albumRouter.get('/:albumId', findAlbumByPk);
 albumRouter.patch('/:albumId', updateAlbum);
