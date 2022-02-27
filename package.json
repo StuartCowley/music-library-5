@@ -6,6 +6,7 @@
   "scripts": {
     "prestart": "node utils/create-database.js",
     "dev": "nodemon -r dotenv/config index.js",
+    "start": "node index.js",
     "pretest": "node utils/create-database.js test",
     "test": "mocha tests/**/*.js --exit --recursive --timeout 60000 --file ./tests/test-setup.js",
     "posttest": "node utils/drop-database.js"
@@ -22,14 +23,9 @@
   },
   "homepage": "https://github.com/JMoss89/music-library#readme",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
     "chai": "^4.3.6",
     "dotenv": "^16.0.0",
     "eslint": "^8.9.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-react": "^7.28.0",
     "mocha": "^9.2.0",
     "nodemon": "^2.0.15",
     "prettier": "2.5.1",
